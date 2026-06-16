@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Inbox,
   Package,
@@ -10,7 +10,9 @@ import {
   LogOut,
   Sparkles,
   MessageSquare,
+  Loader2,
 } from "lucide-react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -40,6 +42,25 @@ function Dashboard() {
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
+  const { data: business, isLoading } = useQuery({
+    queryKey: ["my-business", user.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("businesses")
+        .select("*")
+        .eq("owner_id", user.id)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    if (!isLoading && !business) {
+      navigate({ to: "/onboarding", replace: true });
+    }
+  }, [isLoading, business, navigate]);
+
   const signOut = async () => {
     await queryClient.cancelQueries();
     queryClient.clear();
@@ -47,6 +68,14 @@ function Dashboard() {
     toast.success("Signed out");
     navigate({ to: "/auth", replace: true });
   };
+
+  if (isLoading || !business) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="grid min-h-screen md:grid-cols-[260px_1fr] bg-background">
@@ -57,7 +86,10 @@ function Dashboard() {
           </div>
           <span className="font-display text-lg font-semibold">Sarthi</span>
         </Link>
-        <nav className="mt-4 space-y-1">
+        <div className="px-2 pb-3 text-xs text-muted-foreground truncate">
+          {business.name}
+        </div>
+        <nav className="mt-1 space-y-1">
           {nav.map((n) => {
             const active = pathname === n.to && n.label === "Inbox";
             return (
@@ -97,7 +129,9 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="font-display text-2xl font-semibold">Inbox</h1>
-              <p className="text-sm text-muted-foreground">Conversations Sarthi is handling for you.</p>
+              <p className="text-sm text-muted-foreground">
+                Conversations Sarthi is handling for {business.name}.
+              </p>
             </div>
             <Button variant="outline" size="sm" className="md:hidden" onClick={signOut}>
               <LogOut className="h-4 w-4" />
@@ -110,18 +144,18 @@ function Dashboard() {
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <MessageSquare className="h-6 w-6" />
             </div>
-            <h2 className="mt-4 font-display text-xl font-semibold">Let's get Sarthi live.</h2>
+            <h2 className="mt-4 font-display text-xl font-semibold">No conversations yet.</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              You're all signed in. The next step is connecting your WhatsApp Business number,
-              uploading your catalog, and teaching Sarthi your tone.
+              Connect your WhatsApp Business number and upload your catalog so Sarthi
+              can start replying to customers automatically.
             </p>
             <div className="mt-6 flex flex-col gap-2">
-              <Button disabled className="bg-primary text-primary-foreground">
+              <Button disabled>
                 <Sparkles className="mr-2 h-4 w-4" />
-                Start onboarding (coming next)
+                Connect WhatsApp (coming next)
               </Button>
               <p className="text-xs text-muted-foreground">
-                Onboarding wizard, catalog upload, and WhatsApp setup ship in the next build phase.
+                WhatsApp Cloud API, catalog upload, and the live agent ship in the next phase.
               </p>
             </div>
           </div>

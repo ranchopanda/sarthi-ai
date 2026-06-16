@@ -1,0 +1,132 @@
+import { createFileRoute, Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  Inbox,
+  Package,
+  Users,
+  ShoppingBag,
+  BarChart3,
+  Settings,
+  LogOut,
+  Sparkles,
+  MessageSquare,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+export const Route = createFileRoute("/_authenticated/dashboard")({
+  head: () => ({
+    meta: [
+      { title: "Dashboard · Sarthi AI" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: Dashboard,
+});
+
+const nav = [
+  { to: "/dashboard", label: "Inbox", icon: Inbox },
+  { to: "/dashboard", label: "Catalog", icon: Package, soon: true },
+  { to: "/dashboard", label: "Customers", icon: Users, soon: true },
+  { to: "/dashboard", label: "Orders", icon: ShoppingBag, soon: true },
+  { to: "/dashboard", label: "Analytics", icon: BarChart3, soon: true },
+  { to: "/dashboard", label: "Settings", icon: Settings, soon: true },
+];
+
+function Dashboard() {
+  const { user } = Route.useRouteContext();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  const signOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    toast.success("Signed out");
+    navigate({ to: "/auth", replace: true });
+  };
+
+  return (
+    <div className="grid min-h-screen md:grid-cols-[260px_1fr] bg-background">
+      <aside className="hidden border-r border-sidebar-border bg-sidebar p-4 md:flex md:flex-col">
+        <Link to="/" className="flex items-center gap-2 px-2 py-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-display font-bold">
+            स
+          </div>
+          <span className="font-display text-lg font-semibold">Sarthi</span>
+        </Link>
+        <nav className="mt-4 space-y-1">
+          {nav.map((n) => {
+            const active = pathname === n.to && n.label === "Inbox";
+            return (
+              <button
+                key={n.label}
+                disabled={n.soon}
+                className={
+                  "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors " +
+                  (active
+                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground") +
+                  (n.soon ? " cursor-not-allowed opacity-60" : "")
+                }
+              >
+                <span className="flex items-center gap-3">
+                  <n.icon className="h-4 w-4" />
+                  {n.label}
+                </span>
+                {n.soon && <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">Soon</span>}
+              </button>
+            );
+          })}
+        </nav>
+        <div className="mt-auto space-y-2 border-t border-sidebar-border pt-4">
+          <div className="px-3 py-2 text-xs text-muted-foreground truncate">
+            {user.email}
+          </div>
+          <Button variant="ghost" size="sm" className="w-full justify-start" onClick={signOut}>
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign out
+          </Button>
+        </div>
+      </aside>
+
+      <main className="flex flex-col">
+        <div className="border-b border-border bg-card/60 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="font-display text-2xl font-semibold">Inbox</h1>
+              <p className="text-sm text-muted-foreground">Conversations Sarthi is handling for you.</p>
+            </div>
+            <Button variant="outline" size="sm" className="md:hidden" onClick={signOut}>
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-1 items-center justify-center p-6">
+          <div className="max-w-md rounded-2xl border border-dashed border-border bg-card p-10 text-center shadow-card">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <MessageSquare className="h-6 w-6" />
+            </div>
+            <h2 className="mt-4 font-display text-xl font-semibold">Let's get Sarthi live.</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              You're all signed in. The next step is connecting your WhatsApp Business number,
+              uploading your catalog, and teaching Sarthi your tone.
+            </p>
+            <div className="mt-6 flex flex-col gap-2">
+              <Button disabled className="bg-primary text-primary-foreground">
+                <Sparkles className="mr-2 h-4 w-4" />
+                Start onboarding (coming next)
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                Onboarding wizard, catalog upload, and WhatsApp setup ship in the next build phase.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

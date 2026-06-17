@@ -65,14 +65,24 @@ function Header() {
           <span className="font-display text-lg font-semibold">Sarthi</span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-          <a href="#how" className="hover:text-foreground">How it works</a>
-          <a href="#features" className="hover:text-foreground">Features</a>
-          <a href="#pricing" className="hover:text-foreground">Pricing</a>
-          <a href="#faq" className="hover:text-foreground">FAQ</a>
+          <a href="#how" className="hover:text-foreground">
+            How it works
+          </a>
+          <a href="#features" className="hover:text-foreground">
+            Features
+          </a>
+          <a href="#pricing" className="hover:text-foreground">
+            Pricing
+          </a>
+          <a href="#faq" className="hover:text-foreground">
+            FAQ
+          </a>
         </nav>
         <div className="flex items-center gap-2">
           <Link to="/auth">
-            <Button variant="ghost" size="sm">Sign in</Button>
+            <Button variant="ghost" size="sm">
+              Sign in
+            </Button>
           </Link>
           <Link to="/auth">
             <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
@@ -110,9 +120,9 @@ function Hero() {
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Sarthi is an AI employee that lives inside your WhatsApp Business number.
-            It chats in Hinglish, knows your catalog, sends UPI payment links, and
-            handles 80% of customer messages — so you can actually run your business.
+            Sarthi is an AI employee that lives inside your WhatsApp Business number. It chats in
+            Hinglish, knows your catalog, sends UPI payment links, and handles 80% of customer
+            messages — so you can actually run your business.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link to="/auth">
@@ -122,7 +132,9 @@ function Hero() {
               </Button>
             </Link>
             <a href="#how">
-              <Button size="lg" variant="outline">See how it works</Button>
+              <Button size="lg" variant="outline">
+                See how it works
+              </Button>
             </a>
           </div>
           <p className="mt-4 text-xs text-muted-foreground">
@@ -141,9 +153,15 @@ function Hero() {
 function PhoneMock() {
   const messages: Array<{ from: "c" | "s"; text: string }> = [
     { from: "c", text: "Bhaiya woh blue kurta dikhao na" },
-    { from: "s", text: "Ji sir, blue kurta ₹1299 mein hai. Size M aur L available. Photo bhej raha hoon 📸" },
+    {
+      from: "s",
+      text: "Ji sir, blue kurta ₹1299 mein hai. Size M aur L available. Photo bhej raha hoon 📸",
+    },
     { from: "c", text: "2 kurta aur 1 legging chahiye. Kitna hoga?" },
-    { from: "s", text: "Total ₹2870 ka order ban raha hai. UPI link bhej raha hoon — payment ho jaye to aaj hi pack karwa deta hoon ✅" },
+    {
+      from: "s",
+      text: "Total ₹2870 ka order ban raha hai. UPI link bhej raha hoon — payment ho jaye to aaj hi pack karwa deta hoon ✅",
+    },
     { from: "c", text: "Payment kar diya 🙏" },
     { from: "s", text: "Thank you ji! Order ID #ORD-39481 confirm. Kal delivery ho jayega." },
   ];
@@ -157,7 +175,9 @@ function PhoneMock() {
           </div>
           <div>
             <div className="text-sm font-semibold">Sharma General Store</div>
-            <div className="text-[10px] text-primary-foreground/70">online · Sarthi AI replying</div>
+            <div className="text-[10px] text-primary-foreground/70">
+              online · Sarthi AI replying
+            </div>
           </div>
         </div>
         <div className="space-y-2 bg-[oklch(0.96_0.03_85)] p-4 text-sm">
@@ -190,8 +210,8 @@ function Problem() {
         </h2>
         <p className="mt-4 text-lg text-muted-foreground">
           200+ messages a day. "Bhaiya price?", "Kal milega na?", payment reminders, photo requests.
-          Every reply is a context switch. Sarthi handles the repetitive 80% — and only pings you when
-          your judgement is actually needed.
+          Every reply is a context switch. Sarthi handles the repetitive 80% — and only pings you
+          when your judgement is actually needed.
         </p>
       </div>
     </section>
@@ -246,12 +266,36 @@ function How() {
 
 function Features() {
   const features = [
-    { icon: Languages, title: "Hinglish, naturally", body: "Code-switches like a real Indian employee. Hindi, English, regional cues — never robotic." },
-    { icon: IndianRupee, title: "UPI payments inline", body: "Generates Razorpay UPI links, checks payment status, confirms orders — all in chat." },
-    { icon: ShieldCheck, title: "Grounded, not guessing", body: "Never invents prices or stock. Every reply is checked against your live catalog." },
-    { icon: Clock, title: "Replies in <4 seconds", body: "Customers never wait. Conversion goes up because nobody bounces to a competitor." },
-    { icon: MessageCircle, title: "Perfect handoff", body: "One-tap 'Take over'. Sarthi summarises the conversation so you ramp in seconds." },
-    { icon: Sparkles, title: "Learns from your corrections", body: "Every edit you make trains your private Sarthi. The longer you use it, the better it gets." },
+    {
+      icon: Languages,
+      title: "Hinglish, naturally",
+      body: "Code-switches like a real Indian employee. Hindi, English, regional cues — never robotic.",
+    },
+    {
+      icon: IndianRupee,
+      title: "UPI payments inline",
+      body: "Generates Razorpay UPI links, checks payment status, confirms orders — all in chat.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Grounded, not guessing",
+      body: "Never invents prices or stock. Every reply is checked against your live catalog.",
+    },
+    {
+      icon: Clock,
+      title: "Replies in <4 seconds",
+      body: "Customers never wait. Conversion goes up because nobody bounces to a competitor.",
+    },
+    {
+      icon: MessageCircle,
+      title: "Perfect handoff",
+      body: "One-tap 'Take over'. Sarthi summarises the conversation so you ramp in seconds.",
+    },
+    {
+      icon: Sparkles,
+      title: "Learns from your corrections",
+      body: "Every edit you make trains your private Sarthi. The longer you use it, the better it gets.",
+    },
   ];
   return (
     <section id="features" className="border-y border-border bg-card">
@@ -282,20 +326,35 @@ function Pricing() {
       name: "Starter",
       price: "₹499",
       tag: "Try Sarthi out",
-      features: ["500 conversations / month", "1 WhatsApp number", "Catalog & UPI links", "Basic analytics"],
+      features: [
+        "500 conversations / month",
+        "1 WhatsApp number",
+        "Catalog & UPI links",
+        "Basic analytics",
+      ],
     },
     {
       name: "Pro",
       price: "₹999",
       tag: "Most businesses",
-      features: ["2,000 conversations / month", "Conversation memory (30 days)", "Custom tone training", "Full analytics dashboard"],
+      features: [
+        "2,000 conversations / month",
+        "Conversation memory (30 days)",
+        "Custom tone training",
+        "Full analytics dashboard",
+      ],
       featured: true,
     },
     {
       name: "Business",
       price: "₹2,499",
       tag: "Multi-staff teams",
-      features: ["Unlimited conversations", "Team inbox", "Custom tone fine-tuning", "Priority support"],
+      features: [
+        "Unlimited conversations",
+        "Team inbox",
+        "Custom tone fine-tuning",
+        "Priority support",
+      ],
     },
   ];
   return (
@@ -381,7 +440,9 @@ function FAQ() {
   return (
     <section id="faq" className="border-t border-border bg-card">
       <div className="mx-auto max-w-3xl px-6 py-24">
-        <p className="text-center text-sm font-semibold uppercase tracking-wide text-saffron">FAQ</p>
+        <p className="text-center text-sm font-semibold uppercase tracking-wide text-saffron">
+          FAQ
+        </p>
         <h2 className="mt-2 text-center font-display text-4xl font-semibold tracking-tight">
           Questions, answered.
         </h2>
@@ -406,7 +467,8 @@ function CTA() {
           Get your evenings back.
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-primary-foreground/80">
-          Sarthi is live in 10 minutes. Your customers won't know it isn't a human. You'll know — because you're finally free.
+          Sarthi is live in 10 minutes. Your customers won't know it isn't a human. You'll know —
+          because you're finally free.
         </p>
         <Link to="/auth" className="mt-8 inline-block">
           <Button size="lg" className="bg-saffron text-saffron-foreground hover:bg-saffron/90">
@@ -428,9 +490,15 @@ function Footer() {
           <span>© 2026 Sarthi AI · Made in India</span>
         </div>
         <div className="flex gap-6">
-          <a href="#features" className="hover:text-foreground">Features</a>
-          <a href="#pricing" className="hover:text-foreground">Pricing</a>
-          <Link to="/auth" className="hover:text-foreground">Sign in</Link>
+          <a href="#features" className="hover:text-foreground">
+            Features
+          </a>
+          <a href="#pricing" className="hover:text-foreground">
+            Pricing
+          </a>
+          <Link to="/auth" className="hover:text-foreground">
+            Sign in
+          </Link>
         </div>
       </div>
     </footer>

@@ -11,6 +11,7 @@ import {
   Sparkles,
   MessageSquare,
   Loader2,
+  AlertTriangle,
 } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,21 +20,20 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
-    meta: [
-      { title: "Dashboard · Sarthi AI" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Dashboard · Sarthi AI" }, { name: "robots", content: "noindex" }],
   }),
   component: Dashboard,
 });
 
 const nav = [
-  { to: "/dashboard", label: "Inbox", icon: Inbox },
-  { to: "/dashboard", label: "Catalog", icon: Package, soon: true },
+  { to: "/inbox", label: "Inbox", icon: Inbox },
+  { to: "/catalog", label: "Catalog", icon: Package },
+  { to: "/orders", label: "Orders", icon: ShoppingBag },
+  { to: "/escalations", label: "Escalations", icon: AlertTriangle },
+  { to: "/playground", label: "Playground", icon: Sparkles },
   { to: "/dashboard", label: "Customers", icon: Users, soon: true },
-  { to: "/dashboard", label: "Orders", icon: ShoppingBag, soon: true },
-  { to: "/dashboard", label: "Analytics", icon: BarChart3, soon: true },
-  { to: "/dashboard", label: "Settings", icon: Settings, soon: true },
+  { to: "/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/settings", label: "Settings", icon: Settings },
 ];
 
 function Dashboard() {
@@ -56,8 +56,12 @@ function Dashboard() {
   });
 
   useEffect(() => {
-    if (!isLoading && !business) {
-      navigate({ to: "/onboarding", replace: true });
+    if (!isLoading) {
+      if (!business) {
+        navigate({ to: "/onboarding", replace: true });
+      } else {
+        navigate({ to: "/inbox", replace: true });
+      }
     }
   }, [isLoading, business, navigate]);
 
@@ -86,37 +90,41 @@ function Dashboard() {
           </div>
           <span className="font-display text-lg font-semibold">Sarthi</span>
         </Link>
-        <div className="px-2 pb-3 text-xs text-muted-foreground truncate">
-          {business.name}
-        </div>
+        <div className="px-2 pb-3 text-xs text-muted-foreground truncate">{business.name}</div>
         <nav className="mt-1 space-y-1">
           {nav.map((n) => {
-            const active = pathname === n.to && n.label === "Inbox";
+            const active = pathname === n.to;
+            const cls =
+              "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors " +
+              (active
+                ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground") +
+              (n.soon ? " cursor-not-allowed opacity-60" : "");
+            if (n.soon) {
+              return (
+                <button key={n.label} disabled className={cls}>
+                  <span className="flex items-center gap-3">
+                    <n.icon className="h-4 w-4" />
+                    {n.label}
+                  </span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                    Soon
+                  </span>
+                </button>
+              );
+            }
             return (
-              <button
-                key={n.label}
-                disabled={n.soon}
-                className={
-                  "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors " +
-                  (active
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground") +
-                  (n.soon ? " cursor-not-allowed opacity-60" : "")
-                }
-              >
+              <Link key={n.label} to={n.to as any} className={cls}>
                 <span className="flex items-center gap-3">
                   <n.icon className="h-4 w-4" />
                   {n.label}
                 </span>
-                {n.soon && <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">Soon</span>}
-              </button>
+              </Link>
             );
           })}
         </nav>
         <div className="mt-auto space-y-2 border-t border-sidebar-border pt-4">
-          <div className="px-3 py-2 text-xs text-muted-foreground truncate">
-            {user.email}
-          </div>
+          <div className="px-3 py-2 text-xs text-muted-foreground truncate">{user.email}</div>
           <Button variant="ghost" size="sm" className="w-full justify-start" onClick={signOut}>
             <LogOut className="mr-2 h-4 w-4" />
             Sign out
@@ -146,8 +154,8 @@ function Dashboard() {
             </div>
             <h2 className="mt-4 font-display text-xl font-semibold">No conversations yet.</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Connect your WhatsApp Business number and upload your catalog so Sarthi
-              can start replying to customers automatically.
+              Connect your WhatsApp Business number and upload your catalog so Sarthi can start
+              replying to customers automatically.
             </p>
             <div className="mt-6 flex flex-col gap-2">
               <Button disabled>

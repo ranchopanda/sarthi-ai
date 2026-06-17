@@ -18,10 +18,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
   head: () => ({
-    meta: [
-      { title: "Set up Sarthi · Onboarding" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Set up Sarthi · Onboarding" }, { name: "robots", content: "noindex" }],
   }),
   component: Onboarding,
 });
@@ -80,8 +77,7 @@ function Onboarding() {
     },
   });
 
-  const set = <K extends keyof Form>(k: K, v: Form[K]) =>
-    setForm((f) => ({ ...f, [k]: v }));
+  const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
 
   const steps = [
     {
@@ -129,10 +125,14 @@ function Onboarding() {
           <div className="space-y-2">
             <Label>Category</Label>
             <Select value={form.category} onValueChange={(v) => set("category", v)}>
-              <SelectTrigger><SelectValue placeholder="Pick a category" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Pick a category" />
+              </SelectTrigger>
               <SelectContent>
                 {CATEGORIES.map((c) => (
-                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -140,7 +140,9 @@ function Onboarding() {
           <div className="space-y-2">
             <Label>Reply language</Label>
             <Select value={form.language} onValueChange={(v) => set("language", v)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="hinglish">Hinglish (default)</SelectItem>
                 <SelectItem value="hindi">Hindi</SelectItem>
@@ -187,14 +189,12 @@ function Onboarding() {
   const finish = async () => {
     setSaving(true);
     try {
-      const { error: pErr } = await supabase
-        .from("profiles")
-        .upsert({
-          id: user.id,
-          full_name: form.full_name || null,
-          phone: form.phone || null,
-          onboarded: true,
-        });
+      const { error: pErr } = await supabase.from("profiles").upsert({
+        id: user.id,
+        full_name: form.full_name || null,
+        phone: form.phone || null,
+        onboarded: true,
+      });
       if (pErr) throw pErr;
 
       const { error: bErr } = await supabase.from("businesses").insert({
@@ -257,13 +257,16 @@ function Onboarding() {
             </Button>
             {last ? (
               <Button onClick={finish} disabled={!current.valid || saving}>
-                {saving ? "Saving..." : (<><Check className="mr-2 h-4 w-4" /> Finish</>)}
+                {saving ? (
+                  "Saving..."
+                ) : (
+                  <>
+                    <Check className="mr-2 h-4 w-4" /> Finish
+                  </>
+                )}
               </Button>
             ) : (
-              <Button
-                onClick={() => setStep((s) => s + 1)}
-                disabled={!current.valid}
-              >
+              <Button onClick={() => setStep((s) => s + 1)} disabled={!current.valid}>
                 Next <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             )}

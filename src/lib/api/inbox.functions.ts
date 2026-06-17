@@ -83,7 +83,7 @@ export const takeoverConversation = createServerFn({ method: "POST" })
     const businessId = await getBusinessId(data.userId);
     const { error } = await supabaseAdmin
       .from("conversations")
-      .update({ status: "taken_over" })
+      .update({ agent_enabled: false })
       .eq("id", data.conversationId)
       .eq("business_id", businessId);
     if (error) throw error;

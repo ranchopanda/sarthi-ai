@@ -13,7 +13,7 @@ async function getBusinessId(ownerId: string) {
 }
 
 export const getAnalytics = createServerFn({ method: "GET" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       period: z.enum(["7d", "30d"]).default("7d"),

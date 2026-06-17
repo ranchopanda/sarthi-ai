@@ -26,7 +26,7 @@ async function getBusinessId(ownerId: string) {
 }
 
 export const getProducts = createServerFn({ method: "GET" })
-  .validator(z.object({ userId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -40,7 +40,7 @@ export const getProducts = createServerFn({ method: "GET" })
   });
 
 export const createProduct = createServerFn({ method: "POST" })
-  .validator(z.object({ userId: z.string().uuid(), product: productSchema }))
+  .inputValidator(z.object({ userId: z.string().uuid(), product: productSchema }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -54,7 +54,7 @@ export const createProduct = createServerFn({ method: "POST" })
   });
 
 export const updateProduct = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       productId: z.string().uuid(),
@@ -76,7 +76,7 @@ export const updateProduct = createServerFn({ method: "POST" })
   });
 
 export const deleteProduct = createServerFn({ method: "POST" })
-  .validator(z.object({ userId: z.string().uuid(), productId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid(), productId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -90,7 +90,7 @@ export const deleteProduct = createServerFn({ method: "POST" })
   });
 
 export const uploadCatalog = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       rows: z.array(
@@ -129,7 +129,7 @@ export const uploadCatalog = createServerFn({ method: "POST" })
   });
 
 export const generateEmbeddings = createServerFn({ method: "POST" })
-  .validator(z.object({ userId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -194,7 +194,7 @@ export const generateEmbeddings = createServerFn({ method: "POST" })
   });
 
 export const searchCatalog = createServerFn({ method: "POST" })
-  .validator(z.object({ userId: z.string().uuid(), query: z.string().min(1) }))
+  .inputValidator(z.object({ userId: z.string().uuid(), query: z.string().min(1) }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);

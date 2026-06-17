@@ -22,7 +22,7 @@ async function getRazorpayCreds() {
 }
 
 export const createRazorpayPaymentLink = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       orderId: z.string().uuid(),
@@ -94,7 +94,7 @@ export const createRazorpayPaymentLink = createServerFn({ method: "POST" })
   });
 
 export const checkRazorpayPaymentStatus = createServerFn({ method: "POST" })
-  .validator(z.object({ orderId: z.string().uuid() }))
+  .inputValidator(z.object({ orderId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 

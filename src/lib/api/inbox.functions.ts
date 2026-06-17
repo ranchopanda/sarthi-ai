@@ -97,7 +97,7 @@ export const resumeAgent = createServerFn({ method: "POST" })
     const businessId = await getBusinessId(data.userId);
     const { error } = await supabaseAdmin
       .from("conversations")
-      .update({ status: "open" })
+      .update({ agent_enabled: true })
       .eq("id", data.conversationId)
       .eq("business_id", businessId);
     if (error) throw error;

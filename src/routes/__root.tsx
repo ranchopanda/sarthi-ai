@@ -93,6 +93,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Sarthi AI — Your AI employee on WhatsApp" },
+      { name: "description", content: "Sarthi AI is an autonomous AI employee for WhatsApp Business, automating sales and support for Indian small businesses." },
+      { property: "og:description", content: "Sarthi AI is an autonomous AI employee for WhatsApp Business, automating sales and support for Indian small businesses." },
+      { name: "twitter:description", content: "Sarthi AI is an autonomous AI employee for WhatsApp Business, automating sales and support for Indian small businesses." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e901c450-6e63-494e-9bf8-fedeb9793784/id-preview-aa99c80c--9e912e10-9932-432c-8f03-8b8b88721edb.lovable.app-1781700652488.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e901c450-6e63-494e-9bf8-fedeb9793784/id-preview-aa99c80c--9e912e10-9932-432c-8f03-8b8b88721edb.lovable.app-1781700652488.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

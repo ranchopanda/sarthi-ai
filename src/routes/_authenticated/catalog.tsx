@@ -458,7 +458,15 @@ function CsvUploadDialog({
   const qc = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<
-    { name: string; price: number; stock?: number; sku?: string; category?: string }[]
+    {
+      name: string;
+      price: number;
+      stock?: number;
+      sku?: string;
+      category?: string;
+      description?: string;
+      image_url?: string;
+    }[]
   >([]);
   const [uploading, setUploading] = useState(false);
   const [embedding, setEmbedding] = useState(false);

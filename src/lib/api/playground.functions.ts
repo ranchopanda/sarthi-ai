@@ -9,7 +9,7 @@ const historySchema = z.array(
 );
 
 export const runPlaygroundAgent = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       businessId: z.string().uuid(),

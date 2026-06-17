@@ -13,7 +13,7 @@ async function getBusinessId(ownerId: string) {
 }
 
 export const getConversations = createServerFn({ method: "GET" })
-  .validator(z.object({ userId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -53,7 +53,7 @@ export const getConversations = createServerFn({ method: "GET" })
   });
 
 export const getConversationMessages = createServerFn({ method: "GET" })
-  .validator(z.object({ userId: z.string().uuid(), conversationId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid(), conversationId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -77,13 +77,13 @@ export const getConversationMessages = createServerFn({ method: "GET" })
   });
 
 export const takeoverConversation = createServerFn({ method: "POST" })
-  .validator(z.object({ userId: z.string().uuid(), conversationId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid(), conversationId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
     const { error } = await supabaseAdmin
       .from("conversations")
-      .update({ status: "taken_over" })
+      .update({ agent_enabled: false })
       .eq("id", data.conversationId)
       .eq("business_id", businessId);
     if (error) throw error;
@@ -91,13 +91,13 @@ export const takeoverConversation = createServerFn({ method: "POST" })
   });
 
 export const resumeAgent = createServerFn({ method: "POST" })
-  .validator(z.object({ userId: z.string().uuid(), conversationId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid(), conversationId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
     const { error } = await supabaseAdmin
       .from("conversations")
-      .update({ status: "open" })
+      .update({ agent_enabled: true })
       .eq("id", data.conversationId)
       .eq("business_id", businessId);
     if (error) throw error;
@@ -105,7 +105,7 @@ export const resumeAgent = createServerFn({ method: "POST" })
   });
 
 export const sendManualReply = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       conversationId: z.string().uuid(),
@@ -162,7 +162,7 @@ export const sendManualReply = createServerFn({ method: "POST" })
   });
 
 export const getEscalations = createServerFn({ method: "GET" })
-  .validator(z.object({ userId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -181,7 +181,7 @@ export const getEscalations = createServerFn({ method: "GET" })
   });
 
 export const resolveEscalation = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       escalationId: z.string().uuid(),
@@ -205,7 +205,7 @@ export const resolveEscalation = createServerFn({ method: "POST" })
   });
 
 export const getOrders = createServerFn({ method: "GET" })
-  .validator(z.object({ userId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -223,7 +223,7 @@ export const getOrders = createServerFn({ method: "GET" })
   });
 
 export const saveCorrection = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       messageId: z.string().uuid(),

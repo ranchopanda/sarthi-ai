@@ -13,7 +13,7 @@ async function getBusinessId(ownerId: string) {
 }
 
 export const getWhatsAppConnection = createServerFn({ method: "GET" })
-  .validator(z.object({ userId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -29,7 +29,7 @@ export const getWhatsAppConnection = createServerFn({ method: "GET" })
   });
 
 export const saveWhatsAppConnection = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       phone_number_id: z.string().min(1),
@@ -66,7 +66,7 @@ export const saveWhatsAppConnection = createServerFn({ method: "POST" })
   });
 
 export const disconnectWhatsApp = createServerFn({ method: "POST" })
-  .validator(z.object({ userId: z.string().uuid() }))
+  .inputValidator(z.object({ userId: z.string().uuid() }))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const businessId = await getBusinessId(data.userId);
@@ -79,7 +79,7 @@ export const disconnectWhatsApp = createServerFn({ method: "POST" })
   });
 
 export const sendOutboundMessage = createServerFn({ method: "POST" })
-  .validator(
+  .inputValidator(
     z.object({
       userId: z.string().uuid(),
       conversationId: z.string().uuid(),

@@ -106,6 +106,7 @@ export type Database = {
       }
       conversations: {
         Row: {
+          agent_enabled: boolean
           business_id: string
           created_at: string
           customer_id: string
@@ -115,6 +116,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          agent_enabled?: boolean
           business_id: string
           created_at?: string
           customer_id: string
@@ -124,6 +126,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          agent_enabled?: boolean
           business_id?: string
           created_at?: string
           customer_id?: string
@@ -373,6 +376,7 @@ export type Database = {
           active: boolean
           attributes: Json | null
           business_id: string
+          category: string | null
           created_at: string
           description: string | null
           embedding: string | null
@@ -388,6 +392,7 @@ export type Database = {
           active?: boolean
           attributes?: Json | null
           business_id: string
+          category?: string | null
           created_at?: string
           description?: string | null
           embedding?: string | null
@@ -403,6 +408,7 @@ export type Database = {
           active?: boolean
           attributes?: Json | null
           business_id?: string
+          category?: string | null
           created_at?: string
           description?: string | null
           embedding?: string | null

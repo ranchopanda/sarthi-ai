@@ -43,7 +43,7 @@ function InboxPage() {
     queryFn: () => getConversations({ data: { userId: user.id } }),
   });
 
-  const selected = conversations.find((c) => c.id === selectedId);
+  const selected = conversations.find((c: (typeof conversations)[number]) => c.id === selectedId);
 
   return (
     <div className="flex flex-1 overflow-hidden">
